@@ -15,6 +15,8 @@
  */
 package com.alibaba.dubbo.common.utils;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -424,7 +426,8 @@ public class PojoUtils {
             	}
         		return result;
         	} else if (type.isInterface()) {
-        	    Object dest = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{type}, new PojoInvocationHandler(map));
+                //Thread.currentThread().getContextClassLoader()
+        	    Object dest = Proxy.newProxyInstance(ClassLoadRecord.getClassLoader(), new Class<?>[]{type}, new PojoInvocationHandler(map));
                 history.put(pojo, dest);
                 return dest;
             } else {

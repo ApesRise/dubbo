@@ -15,6 +15,8 @@
  */
 package com.alibaba.dubbo.common.utils;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,7 +29,8 @@ public class ClassHelper {
 
     public static Class<?> forNameWithThreadContextClassLoader(String name)
         throws ClassNotFoundException {
-        return forName(name, Thread.currentThread().getContextClassLoader());
+        return forName(name, ClassLoadRecord.getClassLoader());
+        //Thread.currentThread().getContextClassLoader()
     }
 
     public static Class<?> forNameWithCallerClassLoader(String name, Class<?> caller)
@@ -48,7 +51,8 @@ public class ClassHelper {
     public static ClassLoader getClassLoader(Class<?> cls) {
     	ClassLoader cl = null;
         try {
-            cl = Thread.currentThread().getContextClassLoader();
+            cl = ClassLoadRecord.getClassLoader();
+            //Thread.currentThread().getContextClassLoader()
         } catch (Throwable ex) {
             // Cannot access thread context ClassLoader - falling back to system class loader...
         }

@@ -22,6 +22,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
 import java.io.StreamCorruptedException;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
 import com.alibaba.dubbo.common.utils.ClassHelper;
 
 /**
@@ -35,8 +36,8 @@ public class CompactedObjectInputStream extends ObjectInputStream
 	private ClassLoader mClassLoader;
 
 	public CompactedObjectInputStream(InputStream in) throws IOException
-	{
-		this(in, Thread.currentThread().getContextClassLoader());
+	{//Thread.currentThread().getContextClassLoader()
+		this(in, ClassLoadRecord.getClassLoader());
 	}
 
 	public CompactedObjectInputStream(InputStream in, ClassLoader cl) throws IOException

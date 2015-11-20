@@ -15,6 +15,8 @@
  */
 package com.alibaba.dubbo.common.compiler.support;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Array;
@@ -123,7 +125,8 @@ public class ClassUtils {
     private static Class<?> arrayForName(String className) throws ClassNotFoundException {
         return Class.forName(className.endsWith("[]")
                 ? "[L" + className.substring(0, className.length() - 2) + ";"
-                        : className, true, Thread.currentThread().getContextClassLoader());
+                        : className, true, ClassLoadRecord.getClassLoader());
+        //Thread.currentThread().getContextClassLoader()
     }
     
     public static Class<?> getBoxedClass(Class<?> type) {

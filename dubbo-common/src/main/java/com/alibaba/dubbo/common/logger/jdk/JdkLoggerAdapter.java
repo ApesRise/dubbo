@@ -22,6 +22,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.LogManager;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
 import com.alibaba.dubbo.common.logger.Level;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerAdapter;
@@ -34,7 +35,8 @@ public class JdkLoggerAdapter implements LoggerAdapter {
 
 	public JdkLoggerAdapter() {
 		try {
-			InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("logging.properties");
+			//Thread.currentThread().getContextClassLoader()
+			InputStream in = ClassLoadRecord.getClassLoader().getResourceAsStream("logging.properties");
 			if (in != null) {
 				LogManager.getLogManager().readConfiguration(in);
 			} else {

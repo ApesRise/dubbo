@@ -36,7 +36,7 @@ public class JSONTest extends TestCase
 		System.out.println(json);
 		// Assert.assertEquals("{\"code\":\"001\",\"message\":\"AAAAAAAA\"}", json);
 		
-		StringReader reader = new StringReader(json);
+		StringReader reader = new StringReader("{\"code\":\"001\",\"message\":\"AAAAAAAA\"}");
 		MyException result = JSON.parse(reader, MyException.class);
 		Assert.assertEquals("001", result.getCode());
 		Assert.assertEquals("AAAAAAAA", result.getMessage());

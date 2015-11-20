@@ -18,6 +18,7 @@ package com.alibaba.dubbo.rpc.proxy.jdk;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.proxy.AbstractProxyFactory;
@@ -33,7 +34,7 @@ public class JdkProxyFactory extends AbstractProxyFactory {
 
     @SuppressWarnings("unchecked")
     public <T> T getProxy(Invoker<T> invoker, Class<?>[] interfaces) {
-        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), interfaces, new InvokerInvocationHandler(invoker));
+        return (T) Proxy.newProxyInstance(ClassLoadRecord.getClassLoader(), interfaces, new InvokerInvocationHandler(invoker));
     }
 
     public <T> Invoker<T> getInvoker(T proxy, Class<T> type, URL url) {

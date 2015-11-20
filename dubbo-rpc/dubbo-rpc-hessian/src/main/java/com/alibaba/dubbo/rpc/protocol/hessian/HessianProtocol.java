@@ -25,6 +25,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.remoting.http.HttpBinder;
@@ -113,7 +114,7 @@ public class HessianProtocol extends AbstractProxyProtocol {
         int timeout = url.getParameter(Constants.TIMEOUT_KEY, Constants.DEFAULT_TIMEOUT);
         hessianProxyFactory.setConnectTimeout(timeout);
         hessianProxyFactory.setReadTimeout(timeout);
-        return (T) hessianProxyFactory.create(serviceType, url.setProtocol("http").toJavaURL(), Thread.currentThread().getContextClassLoader());
+        return (T) hessianProxyFactory.create(serviceType, url.setProtocol("http").toJavaURL(), ClassLoadRecord.getClassLoader());
     }
 
     protected int getErrorCode(Throwable e) {

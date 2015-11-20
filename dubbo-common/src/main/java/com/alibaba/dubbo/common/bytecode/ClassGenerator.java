@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -59,7 +60,8 @@ public final class ClassGenerator
 
 	public static ClassGenerator newInstance()
 	{
-		return new ClassGenerator(getClassPool(Thread.currentThread().getContextClassLoader()));
+		//Thread.currentThread().getContextClassLoader()
+		return new ClassGenerator(getClassPool(ClassLoadRecord.getClassLoader()));
 	}
 
 	public static ClassGenerator newInstance(ClassLoader loader)

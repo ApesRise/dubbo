@@ -48,6 +48,7 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
 import com.alibaba.dubbo.common.utils.ClassHelper;
 
 /**
@@ -72,7 +73,8 @@ public class JdkCompiler extends AbstractCompiler {
         options.add("-target");
         options.add("1.6");
         StandardJavaFileManager manager = compiler.getStandardFileManager(diagnosticCollector, null, null);
-        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        final ClassLoader loader = ClassLoadRecord.getClassLoader();
+        //Thread.currentThread().getContextClassLoader();
         if (loader instanceof URLClassLoader 
                 && (! loader.getClass().getName().equals("sun.misc.Launcher$AppClassLoader"))) {
             try {
@@ -254,7 +256,8 @@ public class JdkCompiler extends AbstractCompiler {
                 throws IOException {
             Iterable<JavaFileObject> result = super.list(location, packageName, kinds, recurse);
 
-            ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+            ClassLoader contextClassLoader = ClassLoadRecord.getClassLoader();
+            //Thread.currentThread().getContextClassLoader();
             List<URL> urlList = new ArrayList<URL>();
             Enumeration<URL> e = contextClassLoader.getResources("com");
             while (e.hasMoreElements()) {

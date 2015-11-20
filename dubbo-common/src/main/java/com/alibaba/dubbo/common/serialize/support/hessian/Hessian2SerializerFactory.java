@@ -16,6 +16,7 @@
 package com.alibaba.dubbo.common.serialize.support.hessian;
 
 import com.alibaba.com.caucho.hessian.io.SerializerFactory;
+import com.alibaba.dubbo.common.ClassLoadRecord;
 
 public class Hessian2SerializerFactory extends SerializerFactory {
 
@@ -26,7 +27,8 @@ public class Hessian2SerializerFactory extends SerializerFactory {
 
 	@Override
 	public ClassLoader getClassLoader() {
-		return Thread.currentThread().getContextClassLoader();
+//		return Thread.currentThread().getContextClassLoader();
+		return ClassLoadRecord.getClassLoader();
 	}
 
 }

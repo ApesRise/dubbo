@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.common.Version;
@@ -197,8 +198,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
             }
         } else {
             try {
-                interfaceClass = Class.forName(interfaceName, true, Thread.currentThread()
-                        .getContextClassLoader());
+                interfaceClass = Class.forName(interfaceName, true, ClassLoadRecord.getClassLoader());
             } catch (ClassNotFoundException e) {
                 throw new IllegalStateException(e.getMessage(), e);
             }
@@ -547,8 +547,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         }
         try {
             if (interfaceName != null && interfaceName.length() > 0) {
-                this.interfaceClass = Class.forName(interfaceName, true, Thread.currentThread()
-                    .getContextClassLoader());
+                this.interfaceClass = Class.forName(interfaceName, true, ClassLoadRecord.getClassLoader());
             }
         } catch (ClassNotFoundException t) {
             throw new IllegalStateException(t.getMessage(), t);

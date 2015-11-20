@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.LogHelper;
@@ -47,7 +48,7 @@ public final class JavaBeanSerializeUtil {
             return null;
         }
         if (obj instanceof JavaBeanDescriptor) {
-            return (JavaBeanDescriptor)obj;
+            return (JavaBeanDescriptor) obj;
         }
         IdentityHashMap<Object, JavaBeanDescriptor> cache = new IdentityHashMap<Object, JavaBeanDescriptor>();
         JavaBeanDescriptor result = createDescriptorIfAbsent(obj, accessor, cache);
@@ -76,7 +77,7 @@ public final class JavaBeanSerializeUtil {
         if (cache.containsKey(obj)) {
             return cache.get(obj);
         } else if (obj instanceof JavaBeanDescriptor) {
-            return (JavaBeanDescriptor)obj;
+            return (JavaBeanDescriptor) obj;
         } else {
             JavaBeanDescriptor result = createDescriptorForSerialize(obj.getClass());
             cache.put(obj, result);
@@ -167,8 +168,8 @@ public final class JavaBeanSerializeUtil {
 
     public static Object deserialize(JavaBeanDescriptor beanDescriptor) {
         Object result = deserialize(
-            beanDescriptor,
-            Thread.currentThread().getContextClassLoader());
+                beanDescriptor,
+                ClassLoadRecord.getClassLoader());
         return result;
     }
 
@@ -277,7 +278,7 @@ public final class JavaBeanSerializeUtil {
         } catch (NoSuchMethodException e) {
             for (Method m : cls.getMethods()) {
                 if (ReflectUtils.isBeanPropertyWriteMethod(m)
-                    && m.getName().equals(name)) {
+                        && m.getName().equals(name)) {
                     method = m;
                 }
             }
@@ -419,7 +420,6 @@ public final class JavaBeanSerializeUtil {
      * 把 Class.forName 的返回值转换为 Class.
      *
      * @param name Class.getName()
-     *
      * @return Class
      *
      * @throws ClassNotFoundException Class.forName
@@ -453,8 +453,8 @@ public final class JavaBeanSerializeUtil {
 
     private static boolean isReferenceType(String type) {
         return type != null
-            && type.startsWith(REFERENCE_TYPE_PREFIX)
-            && type.endsWith(REFERENCE_TYPE_SUFFIX);
+                && type.startsWith(REFERENCE_TYPE_PREFIX)
+                && type.endsWith(REFERENCE_TYPE_SUFFIX);
     }
 
     private static Method getEnumValueOfMethod(Class cl) throws NoSuchMethodException {

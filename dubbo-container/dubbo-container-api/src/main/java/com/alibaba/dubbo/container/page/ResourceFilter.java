@@ -34,6 +34,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
 import com.alibaba.dubbo.common.Constants;
 
 /**
@@ -140,7 +141,7 @@ public class ResourceFilter implements Filter {
                 if (isFile(path)) {
                     return new FileInputStream(path);
                 } else if (path.startsWith(CLASSPATH_PREFIX)) {
-                    return Thread.currentThread().getContextClassLoader().getResourceAsStream(path.substring(CLASSPATH_PREFIX.length()));
+                    return ClassLoadRecord.getClassLoader().getResourceAsStream(path.substring(CLASSPATH_PREFIX.length()));
                 } else {
                     return new URL(path).openStream();
                 }

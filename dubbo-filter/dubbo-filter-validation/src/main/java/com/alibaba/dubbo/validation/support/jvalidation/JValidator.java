@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.alibaba.dubbo.common.ClassLoadRecord;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtField;
@@ -92,7 +93,7 @@ public class JValidator implements Validator {
         String methodClassName = clazz.getName() + "_" + toUpperMethoName(methodName);
         Class<?> methodClass = null;
         try {
-            methodClass = Class.forName(methodClassName, false, Thread.currentThread().getContextClassLoader());
+            methodClass = Class.forName(methodClassName, false, ClassLoadRecord.getClassLoader());
         } catch (ClassNotFoundException e) {
         }
         Set<ConstraintViolation<?>> violations = new HashSet<ConstraintViolation<?>>();
